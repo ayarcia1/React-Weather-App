@@ -1,4 +1,4 @@
-.search-bar-container {
+  .search-bar-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -33,6 +33,14 @@
   
   .search-bar-button:hover {
     border-color: #646cff;
+  }
+
+  .weather-data-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    user-select: none;
   }
   
   .weather-data {
