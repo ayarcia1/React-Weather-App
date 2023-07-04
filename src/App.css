@@ -12,6 +12,7 @@
 }
 
 .logo-weather-container {
+  margin-left: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,4 +44,8 @@
 
 .logo-snowy:hover {
   filter: drop-shadow(0 0 2em #ffffffaa);
+}
+
+.logo-weather:hover {
+  filter: drop-shadow(0 0 2em #dbdf12aa);
 }
