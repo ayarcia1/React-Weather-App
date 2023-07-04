@@ -5,7 +5,17 @@ import PartlyCloudy from './../images/partly-cloudy.png'
 import Rainy from '../images/rainy.png'
 import Thunderstorm from '../images/thunderstorm.png'
 import Snowy from '../images/snowy.png'
+import Windy from '../images/windy.png'
 import './CitySearch.css';
+
+const weatherIcons = {
+  Clear: Sunny,
+  Clouds: PartlyCloudy,
+  Rain: Rainy,
+  Thunderstorm: Thunderstorm,
+  Snow: Snowy,
+  Wind: Windy,
+};
 
 const CitySearch = () => {
   const [city, setCity] = useState('');
@@ -50,39 +60,66 @@ const CitySearch = () => {
 
   return (
     <>
-    <div className="logo-container">
-      <img src={Sunny} className="logo logo-sunny" alt="Sunny"/>
-      <img src={PartlyCloudy} className="logo logo-partly-cloudy" alt="Partly Cloudy Logo"/>
-      <img src={Rainy} className="logo logo-rainy" alt="Rainy"/>
-      <img src={Thunderstorm} className="logo logo-thunderstorm" alt="Thunderstorm"/>
-      <img src={Snowy} className="logo logo-snowy" alt="Snowy"/>
-    </div>
-    <h1>Weather Forecast</h1>
-    <div className="search-bar-container">
-      <form className="search-bar-form" onSubmit={handleFormSubmit}>
-        <input
-          className="search-bar-input"
-          type="text"
-          placeholder="Enter a city..."
-          value={city}
-          onChange={handleInputChange}
-        />
-        <button className="search-bar-button" type="submit">
-          Search
-        </button>
-      </form>
-      {loading && <p>Loading...</p>}
-      {error && <p className="error-message">{error}</p>}
-    </div>
-    <div className='weather-data-container'>
-      {weatherData && (
-        <div className="weather-data">
-          <h2>{weatherData.name}</h2>
-          <p>Temperature: {weatherData.main.temp}°F</p>
-          <p>Weather: {weatherData.weather[0].description}</p>
-        </div>
-      )}
-    </div>
+      <div className="logo-container">
+        <img src={Sunny} className="logo logo-sunny" alt="Sunny"/>
+        <img src={PartlyCloudy} className="logo logo-partly-cloudy" alt="Partly Cloudy Logo"/>
+        <img src={Rainy} className="logo logo-rainy" alt="Rainy"/>
+        <img src={Thunderstorm} className="logo logo-thunderstorm" alt="Thunderstorm"/>
+        <img src={Snowy} className="logo logo-snowy" alt="Snowy"/>
+      </div>
+      <h1>Weather Forecast</h1>
+      <div className="search-bar-container">
+        <form className="search-bar-form" onSubmit={handleFormSubmit}>
+          <input
+            className="search-bar-input"
+            type="text"
+            placeholder="Enter a city..."
+            value={city}
+            onChange={handleInputChange}
+          />
+          <button className="search-bar-button" type="submit">
+            Search
+          </button>
+        </form>
+        {loading && <p>Loading...</p>}
+        {error && <p className="error-message">{error}</p>}
+      </div>
+      <div className="weather-data-container">
+        {weatherData && (
+          <div className="weather-data">
+            <div className="logo-weather-container">
+              <img
+                src={weatherIcons[weatherData.weather[0].main]}
+                className="logo"
+                alt="Weather Icon"
+              />
+            </div>
+            <div className="weather-details">
+            <h2>{weatherData.name}</h2>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>Temperature: {weatherData.main.temp}°F</td>
+                    <td>Wind Speed: {weatherData.wind.speed} mph</td>
+                  </tr>
+                  <tr>
+                    <td>Description: {weatherData.weather[0].description}</td>
+                    <td>Wind Direction: {weatherData.wind.deg}°</td>
+                  </tr>
+                  <tr>
+                    <td>Humidity: {weatherData.main.humidity}%</td>
+                    <td>Sunrise: {new Date(weatherData.sys.sunrise * 1000).toLocaleTimeString()}</td>
+                  </tr>
+                  <tr>
+                    <td>Pressure: {weatherData.main.pressure} hPa</td>
+                    <td>Sunset: {new Date(weatherData.sys.sunset * 1000).toLocaleTimeString()}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 };
