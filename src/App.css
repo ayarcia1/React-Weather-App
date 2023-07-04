@@ -5,6 +5,12 @@
   text-align: center;
 }
 
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -12,14 +18,23 @@
   transition: filter 300ms;
   -webkit-user-drag: none;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+.logo-sunny:hover {
+  filter: drop-shadow(0 0 2em #f11d1daa);
 }
 
-.card {
-  padding: 2em;
+.logo-partly-cloudy:hover {
+  filter: drop-shadow(0 0 2em #ffaa64aa);
 }
 
-.counter {
-  color: white;
+.logo-rainy:hover {
+  filter: drop-shadow(0 0 2em #0737bdaa);
+}
+
+.logo-thunderstorm:hover {
+  filter: drop-shadow(0 0 2em #64ffaaaa);
+}
+
+.logo-snowy:hover {
+  filter: drop-shadow(0 0 2em #ffffffaa);
 }
