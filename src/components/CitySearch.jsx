@@ -6,18 +6,26 @@ import Cloudy from '../images/cloudy.png'
 import Rainy from '../images/rainy.png'
 import Thunderstorm from '../images/thunderstorm.png'
 import Snowy from '../images/snowy.png'
-import Windy from '../images/windy.png'
+import Misty from '../images/misty.png'
 import './CitySearch.css';
 
 const weatherIcons = {
   Clear: Sunny,
   Clouds: PartlyCloudy,
   Rain: Rainy,
+  Drizzle: Rainy,
   Thunderstorm: Thunderstorm,
   Snow: Snowy,
-  Wind: Windy,
-  Smoke: Cloudy,
-};
+  Mist: Misty,
+  Smoke: Misty,
+  Haze: Misty,
+  Dust: Misty,
+  Fog: Misty,
+  Sand: Misty,
+  Ash: Misty,
+  Squall: Misty,
+  Tornado: Misty,
+};  
 
 const CitySearch = () => {
   const [city, setCity] = useState('');
