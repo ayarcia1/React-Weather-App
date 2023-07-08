@@ -16,6 +16,7 @@ const weatherIcons = {
   Thunderstorm: Thunderstorm,
   Snow: Snowy,
   Wind: Windy,
+  Smoke: Cloudy,
 };
 
 const CitySearch = () => {
@@ -28,7 +29,7 @@ const CitySearch = () => {
     setCity(event.target.value);
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
     if (city.trim() === '') return;
 
@@ -36,27 +37,25 @@ const CitySearch = () => {
     setError(null);
 
     const API_KEY = 'a201bc36c51d274cc556ad6f3afda5da';
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=a201bc36c51d274cc556ad6f3afda5da`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${API_KEY}`;
 
-    axios
-      .get(url)
-      .then((response) => {
-        const temperatureCelsius = response.data.main.temp - 273.15;
-        const temperatureFahrenheit = (temperatureCelsius * 9) / 5 + 32;
-        const modifiedResponse = {
-          ...response.data,
-          main: {
-            ...response.data.main,
-            temp: temperatureFahrenheit.toFixed(2),
-          },
-        };
-        setWeatherData(modifiedResponse);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError('An error occurred. Please enter a valid city.');
-        setLoading(false);
-      });
+    try {
+      const response = await axios.get(url);
+      const temperatureCelsius = response.data.main.temp - 273.15;
+      const temperatureFahrenheit = (temperatureCelsius * 9) / 5 + 32;
+      const modifiedResponse = {
+        ...response.data,
+        main: {
+          ...response.data.main,
+          temp: temperatureFahrenheit.toFixed(2),
+        },
+      };
+      setWeatherData(modifiedResponse);
+    } catch (error) {
+      setError('An error occurred. Please enter a valid city.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -85,21 +84,21 @@ const CitySearch = () => {
         {loading && <p>Loading...</p>}
         {error && <p className="error-message">{error}</p>}
       </div>
-      <table>
-        <tbody>
-          <tr>
-            <td>
-              <div className="logo-weather-container">
-                <img
-                  src={weatherIcons[weatherData.weather[0].main]}
-                  className="logo logo-weather"
-                  alt="Weather Icon"
-                />
-              </div>
-            </td>
-            <td>
-              <div className="weather-data-container">
-                {weatherData && (
+      {weatherData && (
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <div className="logo-weather-container">
+                  <img
+                    src={weatherIcons[weatherData.weather[0].main]}
+                    className="logo logo-weather"
+                    alt="Weather Icon"
+                  />
+                </div>
+              </td>
+              <td>
+                <div className="weather-data-container">
                   <div className="weather-data">
                     <div className="weather-details">
                       <h2>{weatherData.name}</h2>
@@ -110,7 +109,7 @@ const CitySearch = () => {
                             <td>Wind Speed: {weatherData.wind.speed} mph</td>
                           </tr>
                           <tr>
-                            <td>Description: {weatherData.weather[0].description}</td>
+                            <td>Description: {weatherData.weather[0].main}</td>
                             <td>Wind Direction: {weatherData.wind.deg}°</td>
                           </tr>
                           <tr>
@@ -125,12 +124,12 @@ const CitySearch = () => {
                       </table>
                     </div>
                   </div>
-                )}
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      )}
     </>
   );
 };
